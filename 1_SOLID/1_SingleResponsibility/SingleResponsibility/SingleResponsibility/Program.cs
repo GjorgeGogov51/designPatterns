@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -42,7 +43,13 @@ namespace SingleResponsibility
 			var j = new Journal();
 			j.AddEntry("I cried today");
 			j.AddEntry("I solved a bug");
-			WriteLine(j); //calls ToString
+			WriteLine(j);
+
+			var p = new Persistence();
+			var filename = @"c:\temp\journal.txt";
+			p.SaveToFile(j, filename, true);
+			//Process.Start(filename);
+			Process.Start("notepad.exe", filename);
 		}
 	}
 }
