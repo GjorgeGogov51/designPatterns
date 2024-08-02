@@ -24,20 +24,14 @@ namespace SingleResponsibility
 		{
 			return string.Join(Environment.NewLine, entries);
 		}
+	}
 
-		//Too much
-
-		public void Save(string filename)
+	public class Persistence
+	{
+		public void SaveToFile(Journal j, string filename, bool overwrite = false)
 		{
-			File.WriteAllText(filename,ToString());
-		}
-		public static Journal Load(string filename)
-		{
-
-		}
-		public void Load(Uri uri)
-		{
-
+			if (overwrite || !File.Exists(filename))
+				File.WriteAllText(filename, j.ToString());
 		}
 	}
 
