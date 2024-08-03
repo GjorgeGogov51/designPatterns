@@ -79,7 +79,17 @@ namespace OpenClosed
 			return t.Color == color;
 		}
 	}
-	// Filter next
+	public class BetterFilter : IFilter<Product>
+	{
+		public IEnumerable<Product> Filter(IEnumerable<Product> items, ISpecification<Product> spec)
+		{
+			foreach (var i in items)
+			{
+				if (spec.IsSatisfied(i))
+					yield return i;
+			}
+		}
+	}
 
 	public class Demo
 	{
@@ -93,6 +103,14 @@ namespace OpenClosed
 			var pf = new ProductFilter();
 			WriteLine("Green products (old):");
 			foreach (var p in pf.FilterByColor(products, Color.Green))
+			{
+				WriteLine($" - {p.Name} is green");
+			}
+
+			//New filter
+			var bf = new BetterFilter();
+			WriteLine("Green products (new):");
+			foreach (var p in bf.Filter(products, new ColorSpecification(Color.Green)))
 			{
 				WriteLine($" - {p.Name} is green");
 			}
