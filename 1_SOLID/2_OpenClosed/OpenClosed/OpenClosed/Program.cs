@@ -49,7 +49,7 @@ namespace OpenClosed
 					yield return p;
 		}
 
-		// have to go back and modify
+		//bad approach, have to go back and modify
 		public IEnumerable<Product> FilterBySizeAndColor(IEnumerable<Product> products, Size size, Color color)
 		{
 			foreach (var p in products)
@@ -57,6 +57,29 @@ namespace OpenClosed
 					yield return p;
 		}
 	}
+
+	//Specification pattern
+    public interface ISpecification<T>
+    {
+		bool IsSatisfied(T t);
+    }
+	public interface IFilter<T>
+	{
+		IEnumerable<T> Filter(IEnumerable<T> items, ISpecification<T> spec);
+	}
+	public class ColorSpecification : ISpecification<Product>
+	{
+		private Color color;
+        public ColorSpecification(Color color)
+        {
+			this.color = color;
+        }
+        public bool IsSatisfied(Product t)
+		{
+			return t.Color == color;
+		}
+	}
+	// Filter next
 
 	public class Demo
 	{
