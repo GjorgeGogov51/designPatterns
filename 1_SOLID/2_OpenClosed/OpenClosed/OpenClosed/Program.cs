@@ -99,8 +99,8 @@ namespace OpenClosed
 
 		public AndSpecification(ISpecification<T> first, ISpecification<T> second)
 		{
-			this.first = first ?? throw new ArgumentNullException(paramName: nameof(first); ;
-			this.second = second ?? throw new ArgumentNullException(paramName: nameof(second)); ;
+			this.first = first ?? throw new ArgumentNullException(paramName: nameof(first));
+			this.second = second ?? throw new ArgumentNullException(paramName: nameof(second));
 		}
 
 		public bool IsSatisfied(T t)
@@ -144,6 +144,18 @@ namespace OpenClosed
 			foreach (var p in bf.Filter(products, new ColorSpecification(Color.Green)))
 			{
 				WriteLine($" - {p.Name} is green");
+			}
+
+			//Combine specifications
+			WriteLine("Large blue items");
+			foreach (var p in bf.Filter(
+				products,
+				new AndSpecification<Product>(
+					new ColorSpecification(Color.Blue),
+					new SizeSpecification(Size.Large)
+					)))
+			{ 
+				WriteLine($" - {p.Name} is big and blue"); 
 			}
 		}
 	}
