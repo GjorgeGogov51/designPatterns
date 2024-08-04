@@ -30,13 +30,35 @@ namespace LiskovSubstitution
 				return $"{nameof(Width)}: {Width}, {nameof(Height)}: {Height}";
 			}
 		}
-		//Implement a square class next
+		public class Square : Rectangle 
+		{
+			public new int Width 
+			{
+				set 
+				{
+					base.Width = base.Height = value;
+				} 
+			}
+			public new int Height
+			{
+				set 
+				{
+					base.Width = base.Height = value;
+				}
+			}
+		}
 
 		static public int Area(Rectangle r) => r.Width * r.Height;
 		static void Main(string[] args)
 		{
 			Rectangle rc = new Rectangle(2,3);
 			WriteLine($"{rc} has area {Area(rc)}");
+
+			//If square is changed to rectangle, doesn't work as expected
+			//Which breaks the Liskov Substitution principle 
+			Rectangle sq = new Square();
+			sq.Width = 4;
+			WriteLine($"{sq} has area {Area(sq)}");
 		}
 	}
 }
