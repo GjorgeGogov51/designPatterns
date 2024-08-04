@@ -29,11 +29,14 @@ namespace LiskovSubstitution
 			{
 				return $"{nameof(Width)}: {Width}, {nameof(Height)}: {Height}";
 			}
-
 		}
+		//Implement a square class next
+
+		static public int Area(Rectangle r) => r.Width * r.Height;
 		static void Main(string[] args)
 		{
-			Rectangle rc = new Rectangle();
+			Rectangle rc = new Rectangle(2,3);
+			WriteLine($"{rc} has area {Area(rc)}");
 		}
 	}
 }
