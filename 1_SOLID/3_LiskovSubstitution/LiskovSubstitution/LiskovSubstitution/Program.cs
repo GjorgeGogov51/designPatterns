@@ -13,8 +13,8 @@ namespace LiskovSubstitution
 	{
 		public class Rectangle
 		{
-			public int Width { get; set; }
-			public int Height { get; set; }
+			public virtual int Width { get; set; }
+			public virtual int Height { get; set; }
             public Rectangle()
             {
                 
@@ -32,14 +32,14 @@ namespace LiskovSubstitution
 		}
 		public class Square : Rectangle 
 		{
-			public new int Width 
+			public override int Width 
 			{
 				set 
 				{
 					base.Width = base.Height = value;
 				} 
 			}
-			public new int Height
+			public override int Height
 			{
 				set 
 				{
@@ -54,8 +54,7 @@ namespace LiskovSubstitution
 			Rectangle rc = new Rectangle(2,3);
 			WriteLine($"{rc} has area {Area(rc)}");
 
-			//If square is changed to rectangle, doesn't work as expected
-			//Which breaks the Liskov Substitution principle 
+			 
 			Rectangle sq = new Square();
 			sq.Width = 4;
 			WriteLine($"{sq} has area {Area(sq)}");
