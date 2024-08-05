@@ -18,8 +18,13 @@ namespace DependencyInversion
 		public string Name;
 	}
 
+	public interface IRelationshipBrowser
+	{
+		IEnumerable<Person> FindAllChildrenOf(string name);
+	}
+
 	//low-level
-	public class Relationships
+	public class Relationships : IRelationshipBrowser
 	{
 		private List<(Person, Relationship, Person)> Relations
 			= new List<(Person, Relationship, Person)> ();
@@ -29,11 +34,25 @@ namespace DependencyInversion
 			Relations.Add((parent, Relationship.Parent, child));
 			Relations.Add((child, Relationship.Child, parent));
 		}
-		public List<(Person, Relationship, Person)> relations => Relations;
+
+		public IEnumerable<Person> FindAllChildrenOf(string name)
+		{
+			foreach (var r in Relations.Where(
+				x => x.Item1.Name == name &&
+				x.Item2 == Relationship.Parent
+				))
+			{
+				yield return r.Item3;
+			}
+		}
+		//Without Dependency Inversion, changing the Relationships class is an issue
+
+		//public List<(Person, Relationship, Person)> relations => Relations;
 	}
 	//high-level
 	public class Research
 	{
+		/*
 		public Research(Relationships relationships)
 		{
 			var relations = relationships.relations;
@@ -44,6 +63,11 @@ namespace DependencyInversion
 			{
 				WriteLine($"John has a child called {r.Item3.Name}");
 			}
+		}*/
+		public Research (IRelationshipBrowser browser)
+		{
+			foreach (var p in browser.FindAllChildrenOf("John"))
+				WriteLine($"John has a child called {p.Name}");
 		}
 		static void Main(string[] args)
 		{
