@@ -14,8 +14,11 @@ namespace BuilderPattern
 		public string Name, Text;
 		public List<HtmlElement> Elements = new List<HtmlElement>();
 		private const int indentSize = 2;
-
-		public HtmlElement(string name, string text)
+        public HtmlElement()
+        {
+            
+        }
+        public HtmlElement(string name, string text)
 		{
 			Name = name ?? throw new ArgumentNullException(paramName: nameof(name));
 			Text = text ?? throw new ArgumentNullException(paramName: nameof(text));
@@ -43,6 +46,29 @@ namespace BuilderPattern
 		public override string ToString()
 		{
 			return ToStringImpl(0);
+		}
+	}
+	public class HtmlBuilder
+	{
+		private readonly string rootName;
+		HtmlElement root = new HtmlElement();
+        public HtmlBuilder(string rootName)
+        {
+			this.rootName = rootName;
+			root.Name = rootName;
+        }
+		public void AddChild(string childName, string childText)
+		{
+			var e = new HtmlElement(childName, childText);
+			root.Elements.Add(e);
+		}
+		public override string ToString()
+		{
+			return root.ToString();
+		}
+		public void Clear()
+		{
+			root = new HtmlElement {Name = rootName};
 		}
 	}
 	public class Demo
