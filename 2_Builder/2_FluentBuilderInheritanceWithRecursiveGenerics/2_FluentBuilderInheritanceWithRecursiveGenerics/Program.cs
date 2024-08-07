@@ -25,11 +25,21 @@ namespace _2_FluentBuilderInheritanceWithRecursiveGenerics
 			return this;
 		}
 	}
+	public class PersonJobBuilder : PersonInfoBuilder
+	{
+		public PersonJobBuilder WorksAsA(string position)
+		{
+			person.Position = position;
+			return this;
+		}
+	}
 	internal class Program
 	{
 		public static void Main(string[] args)
 		{
-			
+			var builder = new PersonJobBuilder();
+			builder.Called("dmitri");
+			//can't call WorksAsA
 		}
 	}
 }
