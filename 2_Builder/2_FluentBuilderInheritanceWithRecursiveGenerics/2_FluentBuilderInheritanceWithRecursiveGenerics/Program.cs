@@ -8,6 +8,13 @@ namespace _2_FluentBuilderInheritanceWithRecursiveGenerics
 	{
 		public string Name;
 		public string Position;
+
+		public class Builder : PersonJobBuilder<Builder>
+		{
+
+		}
+		public static Builder New => new Builder();
+		// Expose PersonJobBuilder
 		public override string? ToString()
 		{
 			return $"{nameof(Name)}: {Name}, {nameof(Position)}: {Position}";
@@ -45,7 +52,12 @@ namespace _2_FluentBuilderInheritanceWithRecursiveGenerics
 	{
 		public static void Main(string[] args)
 		{
-			
+			var me = Person.New
+				.Called("dmitri")
+				.WorksAsA("quant")
+				.Build();
+
+			Console.WriteLine(me);
 		}
 	}
 }
