@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,6 +22,14 @@ namespace NetworkUtility.Ping
 		public DateTime LastPingDate()
 		{
 			return DateTime.Now;
+		}
+		public PingOptions GetPingOptions()
+		{
+			return new PingOptions()
+			{
+				DontFragment = true,
+				Ttl = 1
+			};
 		}
 	}
 }

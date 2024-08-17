@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -58,6 +59,25 @@ namespace NetworkUtility.Test.PingTests
 			//Assert
 			result.Should().BeAfter(1.January(2010));
 			result.Should().BeBefore(1.January(2030));
+		}
+		[Fact]
+		public void NetworkService_GetPingOptions_ReturnsPingOptions()
+		{
+			//Arrange
+			var expected = new PingOptions()
+			{
+				DontFragment = true,
+				Ttl = 1
+			}; // Object can also be mocked
+
+			//Act
+			var result = _pingService.GetPingOptions();
+
+			//Assert - Use BeEquivalentTo for objects
+			result.Should().BeOfType<PingOptions>();
+			result.Should().BeEquivalentTo(expected);
+			result.Ttl.Should().Be(1);
+			//Can also reach in an object for specific fields
 		}
 	}
 }
